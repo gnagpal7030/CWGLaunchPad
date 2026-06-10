@@ -1,0 +1,194 @@
+Classroom Coding Test Platform (Summary)
+Goal
+A lightweight, local-network coding test platform for 40–45 students in a classroom. The system is controlled by an instructor who can create tests, add Java coding questions, and enable/disable exams. Students submit Java solutions which are auto-evaluated using hidden test cases.
+
+Deployment Model
+Runs on instructor’s laptop
+Accessible via classroom WiFi (LAN IP address)
+No cloud or external hosting
+Platform is active only when instructor starts the server
+Example:
+http://192.168.x.x:8080
+
+
+Tech Stack
+Backend
+Go (Gin framework)
+REST APIs
+Frontend
+Server-rendered HTML
+Bootstrap 5
+HTMX (optional for interactivity)
+Monaco Editor for Java code editor
+Database
+MySQL (instead of SQLite)
+Code Execution
+Docker-based Java execution
+OpenJDK 21 container
+
+Core Features
+Instructor (Admin)
+Login system
+Create/edit/delete coding questions
+Add:
+Problem statement
+Sample test cases
+Hidden test cases
+Starter Java code
+Create tests (contest/exam)
+Enable/disable test (platform control switch)
+View all submissions and scores
+
+Students
+Login using roll number
+View active test (only if enabled)
+Solve coding problems in Java
+Submit code
+View result (pass/fail + score)
+
+Key Modules
+1. Question System
+Each question contains:
+Title
+Description
+Constraints
+Starter Java code
+Sample input/output
+Hidden test cases (for evaluation)
+
+2. Test System
+A test is a collection of questions
+Only one active test at a time
+Controlled by admin toggle:
+ENABLE / DISABLE TEST
+
+
+
+3. Code Execution Engine
+Flow:
+Submit Code
+→ Store in DB
+→ Send to Docker worker
+→ Compile Java
+→ Run against hidden test cases
+→ Capture output
+→ Compare results
+→ Return score
+
+Constraints:
+No network access in container
+Memory limit: ~256MB
+Time limit: ~2 seconds per test case
+
+4. Submission Evaluation
+Each test case is marked pass/fail
+Score = percentage of passed test cases
+Verdicts:
+Accepted
+Wrong Answer
+Compilation Error
+Runtime Error
+TLE
+
+MySQL Database Schema (High Level)
+users
+id
+name
+roll_number
+password_hash
+role (admin/student)
+questions
+id
+title
+description
+starter_code
+test_cases
+id
+question_id
+input_data
+expected_output
+is_hidden
+tests
+id
+title
+is_active
+duration
+test_questions
+test_id
+question_id
+submissions
+id
+user_id
+test_id
+question_id
+code
+score
+verdict
+created_at
+
+UI Structure
+Admin Panel
+Dashboard (students, tests, submissions)
+Question management
+Test creation & activation
+Submission viewer
+Student Panel
+Active test page
+Problem list
+Code editor (Monaco)
+Submit button
+Result page
+
+Anti-Cheating (Basic)
+Disable copy/paste (soft restriction)
+Fullscreen mode during test
+Tab switch detection
+Hidden test cases
+Local network restriction (LAN-only access)
+
+Execution Model
+Worker-based system for submissions
+Docker isolates each Java execution
+Queue ensures multiple submissions don’t overload system
+
+Key Idea
+A mini-LeetCode for classroom use, running fully offline on LAN with:
+Instructor-controlled activation
+Docker-based Java evaluation
+MySQL-backed persistent storage
+Minimal UI + fast deployment
+
+
+
+Endpoints to develop:
+
+
+Health API - for checking MySQL DB. 
+
+For Admin, 
+
+1. Instructor Login (Simple Username and password, no tokens)
+2. Create the question
+3. Edit the question
+4. Delete the question
+5. Get all questions
+6. Get Single question
+7. Add test cases to the question
+8. Edit/Delete the question
+Get the qustions
+8. Create test from the given questions
+9. Get all tests
+10. Edit test
+11. Delete the test
+12. Enable the test
+13. Disable the test
+14.  Get all leaderboard
+
+For Students,
+Get the test (Join the live test)
+Get test questions
+Run the code
+Get the compilation results
+Submit the code
+Get the submission result
+
