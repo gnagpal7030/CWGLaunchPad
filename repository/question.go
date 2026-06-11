@@ -2,6 +2,7 @@ package repository
 
 import (
 	"CWDLaunchPad/config"
+	"CWDLaunchPad/dto"
 	"CWDLaunchPad/model"
 	"database/sql"
 	"fmt"
@@ -25,8 +26,8 @@ const (
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 	fetchQuestions = `SELECT * FROM questions WHERE is_deleted=FALSE`
-	editQuestion   = ``
 	deleteQuestion = `UPDATE questions SET is_deleted = TRUE WHERE id = ?`
+	editQuestion   = `UPDATE questions SET title = ?, description = ?, constraints = ?, starter_code = ?, created_at = ?, method_name = ?, return_type = ?, param_types = ?, param_names = ?, class_name = ? WHERE id = ?`
 )
 
 type QuestionRepository struct {
@@ -86,5 +87,11 @@ func (q *QuestionRepository) GetQuestions(questionID ...string) ([]*model.Questi
 
 func (q *QuestionRepository) DeleteQuestion(questionID string) error {
 	_, err := q.DB.Exec(deleteQuestion, questionID)
+	return err
+}
+
+func (q *QuestionRepository) EditQuestion(question *dto.Question) error {
+	_, err := q.DB.Exec(editQuestion, question.Title, question.Description, question.Constraints, question.StarterCode, question.CreatedAt, question.MethodName, question.ReturnType, question.ParameterTypes, question.ParameterNames, question.ClassName, question.ID)
+
 	return err
 }

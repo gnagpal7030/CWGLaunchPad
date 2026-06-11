@@ -1,6 +1,7 @@
 package AdminService
 
 import (
+	"CWDLaunchPad/dto"
 	"CWDLaunchPad/model"
 	"CWDLaunchPad/repository"
 	"fmt"
@@ -21,11 +22,13 @@ func CreateQuestion(question *model.Question) error {
 }
 
 func GetQuestions(questionID ...string) ([]*model.Question, error) {
-	questionRepo := repository.GetQuestionRepo()
-	return questionRepo.GetQuestions(questionID...)
+	return repository.GetQuestionRepo().GetQuestions(questionID...)
 }
 
 func DeleteQuestion(questionID string) error {
-	questionRepo := repository.GetQuestionRepo()
-	return questionRepo.DeleteQuestion(questionID)
+	return repository.GetQuestionRepo().DeleteQuestion(questionID)
+}
+
+func EditQuestion(question *dto.Question) error {
+	return repository.GetQuestionRepo().EditQuestion(question)
 }
