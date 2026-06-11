@@ -2,7 +2,8 @@ package model
 
 import "time"
 
-type CreateQuestion struct {
+type Question struct {
+	ID             string    `json:"id"`
 	Title          string    `json:"title"`
 	Description    string    `json:"description"`
 	Constraints    string    `json:"constraints"`
@@ -10,7 +11,8 @@ type CreateQuestion struct {
 	CreatedAt      time.Time `json:"created_at"`
 	MethodName     string    `json:"method_name"`
 	ReturnType     string    `json:"return_type"`
-	ParameterTypes string    `json:"parameter_types"`
-	ParameterNames string    `json:"parameter_names"`
+	ParameterTypes string    `json:"param_types"`
+	ParameterNames string    `json:"param_names"`
 	ClassName      string    `json:"class_name"`
+	IsDeleted      bool      `json:"is_deleted"`
 }

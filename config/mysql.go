@@ -13,7 +13,7 @@ var DB *sql.DB
 
 func InitliaseMySQLConnection() error {
 	var err error
-	DB, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s", os.Getenv(constants.MySQLUserName), os.Getenv(constants.MySQLPassword), os.Getenv(constants.MySQLHost), os.Getenv(constants.MySQLDatabase)))
+	DB, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", os.Getenv(constants.MySQLUserName), os.Getenv(constants.MySQLPassword), os.Getenv(constants.MySQLHost), os.Getenv(constants.MySQLDatabase)))
 	if err != nil {
 		return err
 	}

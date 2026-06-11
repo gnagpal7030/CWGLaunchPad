@@ -12,6 +12,6 @@ const (
 	AdminLogin = "login"
 
 	// Student routes
-	StudentJoin           = "join"
-	StudentCreateQuestion = "question"
+	StudentJoin     = "join"
+	StudentQuestion = "question"
 )

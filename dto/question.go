@@ -5,6 +5,7 @@ import "time"
 // Questions struct
 
 type Question struct {
+	ID             string    `json:"id"`
 	Title          string    `json:"title"`
 	Description    string    `json:"description"`
 	Constraints    string    `json:"constraints"`
@@ -15,9 +16,16 @@ type Question struct {
 	ParameterTypes string    `json:"parameter_types"`
 	ParameterNames string    `json:"parameter_names"`
 	ClassName      string    `json:"class_name"`
+	IsDeleted      bool      `json:"is_deleted"`
 }
 
 type CreateQuestionResponse struct {
 	StatusCode int    `json:"status_code"`
 	Message    string `json:"message"`
+}
+
+type GetQuestionsResponse struct {
+	Data       []*Question `json:"data,omitempty"`
+	StatusCode int         `json:"status_code"`
+	Message    string      `json:"message"`
 }

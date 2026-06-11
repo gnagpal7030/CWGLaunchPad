@@ -1,7 +1,6 @@
-package StudentService
+package AdminService
 
 import (
-	"CWDLaunchPad/config"
 	"CWDLaunchPad/model"
 	"CWDLaunchPad/repository"
 	"fmt"
@@ -9,18 +8,19 @@ import (
 
 // All methods related to questions
 
-func CreateQuestion(question *model.CreateQuestion) error {
+func CreateQuestion(question *model.Question) error {
 
 	// add logic to create the question in the DB.
-
-	questionRepo := &repository.QuestionRepository{
-		DB: config.DB,
-	}
-
+	questionRepo := repository.GetQuestionRepo()
 	if err := questionRepo.CreateQuestion(question); err != nil {
 		fmt.Println("error creating the question", err.Error())
 		return err
 	}
 
 	return nil
+}
+
+func GetQuestions(questionID ...string) ([]*model.Question, error) {
+	questionRepo := repository.GetQuestionRepo()
+	return questionRepo.GetQuestions(questionID...)
 }

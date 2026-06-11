@@ -22,7 +22,7 @@ func CreateQuestionHandler(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: Can add validations in future if required
 
-	if err := StudentService.CreateQuestion((*model.CreateQuestion)(question)); err != nil {
+	if err := StudentService.CreateQuestion((*model.Question)(question)); err != nil {
 		fmt.Println("error creating the question", err.Error())
 		http.Error(w, "error creating the question", http.StatusInternalServerError)
 		return

@@ -36,7 +36,8 @@ func main() {
 
 	// ----------------  Admin Routes ---------------
 	adminRouter.HandleFunc(constants.GetRoute(constants.AdminLogin), usecase.AdminLoginHandler).Methods(http.MethodPost)
-	adminRouter.HandleFunc(constants.GetRoute(constants.StudentCreateQuestion), usecase.CreateQuestionHandler).Methods(http.MethodPost)
+	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.CreateQuestionHandler).Methods(http.MethodPost)
+	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.GetQuestionsHandler).Methods(http.MethodGet)
 
 	// ---------------- Student Routes --------------
 	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), usecase.AdminLoginHandler).Methods(http.MethodPost)
