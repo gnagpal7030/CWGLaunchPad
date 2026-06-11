@@ -12,14 +12,14 @@ type Question struct {
 	StarterCode    string    `json:"starter_code"`
 	CreatedAt      time.Time `json:"created_at"`
 	MethodName     string    `json:"method_name"`
-	ReturnType     string    `json:"return_type"`
+	ReturnType     string    `json:"return_type" `
 	ParameterTypes string    `json:"parameter_types"`
 	ParameterNames string    `json:"parameter_names"`
 	ClassName      string    `json:"class_name"`
 	IsDeleted      bool      `json:"is_deleted"`
 }
 
-type CreateQuestionResponse struct {
+type Response struct {
 	StatusCode int    `json:"status_code"`
 	Message    string `json:"message"`
 }

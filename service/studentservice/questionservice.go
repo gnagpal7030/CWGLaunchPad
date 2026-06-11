@@ -24,3 +24,8 @@ func GetQuestions(questionID ...string) ([]*model.Question, error) {
 	questionRepo := repository.GetQuestionRepo()
 	return questionRepo.GetQuestions(questionID...)
 }
+
+func DeleteQuestion(questionID string) error {
+	questionRepo := repository.GetQuestionRepo()
+	return questionRepo.DeleteQuestion(questionID)
+}

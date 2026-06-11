@@ -32,7 +32,7 @@ func CreateQuestionHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")
 
-	response := &dto.CreateQuestionResponse{
+	response := &dto.Response{
 		StatusCode: http.StatusCreated,
 		Message:    "Question created successfully",
 	}

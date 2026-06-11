@@ -83,3 +83,8 @@ func (q *QuestionRepository) GetQuestions(questionID ...string) ([]*model.Questi
 	}
 	return questions, nil
 }
+
+func (q *QuestionRepository) DeleteQuestion(questionID string) error {
+	_, err := q.DB.Exec(deleteQuestion, questionID)
+	return err
+}
