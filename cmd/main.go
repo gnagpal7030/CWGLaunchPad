@@ -3,6 +3,7 @@ package main
 import (
 	"CWDLaunchPad/config"
 	"CWDLaunchPad/constants"
+	"CWDLaunchPad/middleware"
 	usecase "CWDLaunchPad/usecase/admin"
 	"fmt"
 	"net/http"
@@ -32,10 +33,11 @@ func main() {
 	adminRouter := r.PathPrefix("/admin").Subrouter()
 	studentRouter := r.PathPrefix("/student").Subrouter()
 
+	adminRouter.Use(middleware.ValidateAdminToken)
 	// TODO: Add zap logger through the application
 
 	// ----------------  Admin Routes ---------------
-	adminRouter.HandleFunc(constants.GetRoute(constants.AdminLogin), usecase.AdminLoginHandler).Methods(http.MethodPost)
+	r.HandleFunc(constants.GetRoute(constants.AdminLogin), usecase.AdminLoginHandler).Methods(http.MethodPost)
 	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.CreateQuestionHandler).Methods(http.MethodPost)
 	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.GetQuestionsHandler).Methods(http.MethodGet)
 	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.DeleteQuestionHandler).Methods(http.MethodDelete)

@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"CWDLaunchPad/auth"
 	"CWDLaunchPad/constants"
 	"CWDLaunchPad/dto"
+	"CWDLaunchPad/middleware"
 	"encoding/json"
 	"net/http"
 	"os"
@@ -32,9 +32,9 @@ func AdminLoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// send back the details with jwt token
-	tokenString, err := auth.CreateToken(adminUsername)
+	tokenString, err := middleware.CreateToken(adminUsername)
 	if err != nil {
-		http.Error(w, "error creating the token for admin", http.StatusInternalServerError)
+		http.Error(w, "error creating the token for admin"+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -44,7 +44,7 @@ func AdminLoginHandler(w http.ResponseWriter, r *http.Request) {
 	response := &dto.LoginResponse{
 		Token: tokenString,
 	}
-	
+
 	if err := json.NewEncoder(w).Encode(&response); err != nil {
 		http.Error(w, "error sending response", http.StatusInternalServerError)
 		return

@@ -10,7 +10,6 @@ import (
 )
 
 func CreateQuestionHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Create Question Handler")
 
 	var question *dto.Question
 
