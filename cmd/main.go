@@ -38,10 +38,15 @@ func main() {
 
 	// ----------------  Admin Routes ---------------
 	r.HandleFunc(constants.GetRoute(constants.AdminLogin), usecase.AdminLoginHandler).Methods(http.MethodPost)
-	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.CreateQuestionHandler).Methods(http.MethodPost)
-	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.GetQuestionsHandler).Methods(http.MethodGet)
-	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.DeleteQuestionHandler).Methods(http.MethodDelete)
-	adminRouter.HandleFunc(constants.GetRoute(constants.StudentQuestion), usecase.EditQuestionHandler).Methods(http.MethodPut)
+
+	// ---------------- Questions Routes -------------
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.CreateQuestionHandler).Methods(http.MethodPost)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.GetQuestionsHandler).Methods(http.MethodGet)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.DeleteQuestionHandler).Methods(http.MethodDelete)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.EditQuestionHandler).Methods(http.MethodPut)
+
+	// ---------------- Test Cases Routes ------------
+	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{id}", usecase.CreateTestCases).Methods(http.MethodPost)
 
 	// ---------------- Student Routes --------------
 	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), usecase.AdminLoginHandler).Methods(http.MethodPost)

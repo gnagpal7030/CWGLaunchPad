@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"CWDLaunchPad/dto"
-	AdminService "CWDLaunchPad/service/studentservice"
+	AdminService "CWDLaunchPad/service/adminservice"
 	"encoding/json"
 	"net/http"
 )

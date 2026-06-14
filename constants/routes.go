@@ -10,8 +10,9 @@ const (
 
 	// Admin routes
 	AdminLogin = "login"
+	Question   = "question"
+	TestCases  = "testcases"
 
 	// Student routes
-	StudentJoin     = "join"
-	StudentQuestion = "question"
+	StudentJoin = "join"
 )
