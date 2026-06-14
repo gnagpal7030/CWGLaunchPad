@@ -50,6 +50,10 @@ func main() {
 	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{testcase_id}", usecase.DeleteTestCaseHandler).Methods(http.MethodDelete)
 	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{testcase_id}", usecase.EditTestCaseHandler).Methods(http.MethodPut)
 
+	// ----------------- Tests Routes ----------------
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), usecase.CreateTestHandler).Methods(http.MethodPost)
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), usecase.EnableDisableTest).Methods(http.MethodPut)
+
 	// ---------------- Student Routes --------------
 	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), usecase.AdminLoginHandler).Methods(http.MethodPost)
 

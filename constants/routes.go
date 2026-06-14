@@ -12,6 +12,7 @@ const (
 	AdminLogin = "login"
 	Question   = "question"
 	TestCases  = "testcases"
+	Tests      = "tests"
 
 	// Student routes
 	StudentJoin = "join"
