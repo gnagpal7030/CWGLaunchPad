@@ -9,8 +9,8 @@ import (
 
 func GetQuestionsHandler(w http.ResponseWriter, r *http.Request) {
 
-	question := r.URL.Query().Get("id")
-	res, err := AdminService.GetQuestions(question)
+	questionID := r.URL.Query().Get("id")
+	res, err := AdminService.GetQuestions(questionID)
 	if err != nil {
 		http.Error(w, "error fetching questions from DB"+err.Error(), http.StatusInternalServerError)
 		return
@@ -19,7 +19,7 @@ func GetQuestionsHandler(w http.ResponseWriter, r *http.Request) {
 	// send all questions
 	var questionResponse []*dto.Question
 	for _, q := range res {
-		questionResponse = append(questionResponse, (*dto.Question)(q))
+		questionResponse = append(questionResponse, q)
 	}
 
 	message := "data fetched successfully"

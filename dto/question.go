@@ -1,22 +1,25 @@
 package dto
 
-import "time"
+import (
+	"time"
+)
 
 // Questions struct
 
 type Question struct {
-	ID             int       `json:"id"`
-	Title          string    `json:"title"`
-	Description    string    `json:"description"`
-	Constraints    string    `json:"constraints"`
-	StarterCode    string    `json:"starter_code"`
-	CreatedAt      time.Time `json:"created_at"`
-	MethodName     string    `json:"method_name"`
-	ReturnType     string    `json:"return_type" `
-	ParameterTypes string    `json:"parameter_types"`
-	ParameterNames string    `json:"parameter_names"`
-	ClassName      string    `json:"class_name"`
-	IsDeleted      bool      `json:"is_deleted"`
+	ID             int         `json:"id"`
+	Title          string      `json:"title"`
+	Description    string      `json:"description"`
+	Constraints    string      `json:"constraints"`
+	StarterCode    string      `json:"starter_code"`
+	CreatedAt      time.Time   `json:"created_at"`
+	MethodName     string      `json:"method_name"`
+	ReturnType     string      `json:"return_type" `
+	ParameterTypes string      `json:"parameter_types"`
+	ParameterNames string      `json:"parameter_names"`
+	ClassName      string      `json:"class_name"`
+	IsDeleted      bool        `json:"is_deleted"`
+	TestCases      []*TestCase `json:"test_cases"`
 }
 
 type Response struct {

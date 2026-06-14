@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"CWDLaunchPad/dto"
-	"CWDLaunchPad/model"
 	AdminService "CWDLaunchPad/service/adminservice"
 	"encoding/json"
 	"fmt"
@@ -29,7 +28,7 @@ func CreateTestCases(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := AdminService.CreateTestCase((*model.TestCase)(testCase), questionID); err != nil {
+	if err := AdminService.CreateTestCase(testCase, questionID); err != nil {
 		fmt.Println("error creating test case" + err.Error())
 		http.Error(w, "error creating the test case", http.StatusInternalServerError)
 		return

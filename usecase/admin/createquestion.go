@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"CWDLaunchPad/dto"
-	"CWDLaunchPad/model"
 	AdminService "CWDLaunchPad/service/adminservice"
 	"encoding/json"
 	"fmt"
@@ -21,7 +20,7 @@ func CreateQuestionHandler(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: Can add validations in future if required
 
-	if err := AdminService.CreateQuestion((*model.Question)(question)); err != nil {
+	if err := AdminService.CreateQuestion(question); err != nil {
 		fmt.Println("error creating the question", err.Error())
 		http.Error(w, "error creating the question", http.StatusInternalServerError)
 		return

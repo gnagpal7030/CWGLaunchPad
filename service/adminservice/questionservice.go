@@ -2,14 +2,13 @@ package AdminService
 
 import (
 	"CWDLaunchPad/dto"
-	"CWDLaunchPad/model"
 	"CWDLaunchPad/repository"
 	"fmt"
 )
 
 // All methods related to questions
 
-func CreateQuestion(question *model.Question) error {
+func CreateQuestion(question *dto.Question) error {
 
 	// add logic to create the question in the DB.
 	questionRepo := repository.GetQuestionRepo()
@@ -21,7 +20,7 @@ func CreateQuestion(question *model.Question) error {
 	return nil
 }
 
-func GetQuestions(questionID ...string) ([]*model.Question, error) {
+func GetQuestions(questionID ...string) ([]*dto.Question, error) {
 	return repository.GetQuestionRepo().GetQuestions(questionID...)
 }
 
