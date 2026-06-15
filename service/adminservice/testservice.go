@@ -12,3 +12,11 @@ func CreateTest(test *dto.Test) error {
 func EnableDisableTest(enableDisableTest *dto.EnableDisableTestPayload) error {
 	return repository.GetTestRepo().EnableDisableTest(enableDisableTest)
 }
+
+func GetAllTests() ([]*dto.Test, error) {
+	return repository.GetTestRepo().GetAllTests()
+}
+
+func GetSingleTest(testID string) (*dto.SingleTest, error) {
+	return repository.GetTestRepo().GetSingleTest(testID)
+}
