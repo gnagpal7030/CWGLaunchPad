@@ -4,6 +4,7 @@ import (
 	"CWDLaunchPad/config"
 	"CWDLaunchPad/dto"
 	"database/sql"
+	"errors"
 )
 
 type TestRepository struct {
@@ -22,6 +23,7 @@ const (
 	insertIntoTestQuestionMapping = `INSERT INTO test_questions(test_id, question_id) VALUES (?, ?)`
 	fetchTests                    = `SELECT * FROM tests`
 	fetchTestWithQuestions        = `SELECT q.* FROM questions q JOIN test_questions tq ON tq.question_id = q.id WHERE tq.test_id = ? AND q.is_deleted = FALSE`
+	deleteTest                    = `DELETE FROM tests WHERE id = ?`
 )
 
 func (t *TestRepository) CreateTest(test *dto.Test) error {
@@ -70,6 +72,10 @@ func (t *TestRepository) GetAllTests() ([]*dto.Test, error) {
 			return nil, err
 		}
 		tests = append(tests, test)
+	}
+
+	if len(tests) == 0 {
+		return nil, errors.New("no data found")
 	}
 
 	return tests, err
@@ -139,4 +145,9 @@ func (t *TestRepository) GetSingleTest(testID string) (*dto.SingleTest, error) {
 		TestData:  test,
 		Questions: questions,
 	}, nil
+}
+
+func (t *TestRepository) DeleteTest(testID string) error {
+	_, err := t.DB.Exec(deleteTest, testID)
+	return err
 }

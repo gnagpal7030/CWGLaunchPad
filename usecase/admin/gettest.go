@@ -12,6 +12,11 @@ func GetTestHandler(w http.ResponseWriter, r *http.Request) {
 	res, err := AdminService.GetAllTests()
 	if err != nil {
 		fmt.Println("error getting data", err.Error())
+		if err.Error() == "no data found" {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+
 		http.Error(w, "error getting data"+err.Error(), http.StatusInternalServerError)
 		return
 	}
