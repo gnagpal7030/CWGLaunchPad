@@ -24,10 +24,12 @@ const (
 	fetchTests                    = `SELECT * FROM tests`
 	fetchTestWithQuestions        = `SELECT q.* FROM questions q JOIN test_questions tq ON tq.question_id = q.id WHERE tq.test_id = ? AND q.is_deleted = FALSE`
 	deleteTest                    = `DELETE FROM tests WHERE id = ?`
+	insertIntoStudentTestMapping  = `INSERT into student_test_mapping (student_name, roll_no, test_id) VALUES(?, ?, ?)`
 )
 
 func (t *TestRepository) CreateTest(test *dto.Test) error {
-	res, err := t.DB.Exec(fetchTests, test.Title, test.DurationMinutes, test.Description, test.Enabled, test.CreatedAt)
+
+	res, err := t.DB.Exec(insertIntoTest, test.Title, test.DurationMinutes, test.Description, test.Enabled, test.CreatedAt)
 
 	// Also add the mapping between test ID and questions ID
 	testID, err := res.LastInsertId()
@@ -53,6 +55,7 @@ func (t *TestRepository) CreateTest(test *dto.Test) error {
 }
 
 func (t *TestRepository) EnableDisableTest(payload *dto.EnableDisableTestPayload) error {
+	// TODO: Only one test should be enabled at one time.
 	_, err := t.DB.Exec(updateEnabledStatus, payload.Enable, payload.TestID)
 	return err
 }
@@ -81,7 +84,7 @@ func (t *TestRepository) GetAllTests() ([]*dto.Test, error) {
 	return tests, err
 }
 
-func (t *TestRepository) GetSingleTest(testID string) (*dto.SingleTest, error) {
+func (t *TestRepository) GetSingleTest(testID int) (*dto.SingleTest, error) {
 
 	// Fetch test details
 	test := &dto.Test{}
@@ -149,5 +152,12 @@ func (t *TestRepository) GetSingleTest(testID string) (*dto.SingleTest, error) {
 
 func (t *TestRepository) DeleteTest(testID string) error {
 	_, err := t.DB.Exec(deleteTest, testID)
+	return err
+}
+
+func (t *TestRepository) InsertStudentJoinData(studentName, studentRollNo string, testID int) error {
+
+	_, err := t.DB.Exec(insertIntoStudentTestMapping, studentName, studentRollNo, testID)
+
 	return err
 }

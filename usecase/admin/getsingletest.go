@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -14,7 +15,9 @@ func GetSingleTestHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	testID := params["test_id"]
 
-	res, err := AdminService.GetSingleTest(testID)
+	testIDInt, err := strconv.Atoi(testID)
+
+	res, err := AdminService.GetSingleTest(testIDInt)
 	if err != nil {
 		fmt.Println("error fetching the test details", err.Error())
 		http.Error(w, "error fetching the test details"+err.Error(), http.StatusInternalServerError)

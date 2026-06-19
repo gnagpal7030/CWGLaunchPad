@@ -4,7 +4,9 @@ import (
 	"CWDLaunchPad/config"
 	"CWDLaunchPad/constants"
 	"CWDLaunchPad/middleware"
-	usecase "CWDLaunchPad/usecase/admin"
+	admin "CWDLaunchPad/usecase/admin"
+	student "CWDLaunchPad/usecase/students"
+
 	"fmt"
 	"net/http"
 	"os"
@@ -36,30 +38,33 @@ func main() {
 	adminRouter.Use(middleware.ValidateAdminToken)
 	// TODO: Add zap logger through the application
 
-	// ----------------  Admin Routes ---------------
-	r.HandleFunc(constants.GetRoute(constants.AdminLogin), usecase.AdminLoginHandler).Methods(http.MethodPost)
+	// ----------------  Admin Routes Start ---------------
+	r.HandleFunc(constants.GetRoute(constants.AdminLogin), admin.AdminLoginHandler).Methods(http.MethodPost)
 
 	// ---------------- Questions Routes -------------
-	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.CreateQuestionHandler).Methods(http.MethodPost)
-	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.GetQuestionsHandler).Methods(http.MethodGet)
-	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.DeleteQuestionHandler).Methods(http.MethodDelete)
-	adminRouter.HandleFunc(constants.GetRoute(constants.Question), usecase.EditQuestionHandler).Methods(http.MethodPut)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), admin.CreateQuestionHandler).Methods(http.MethodPost)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), admin.GetQuestionsHandler).Methods(http.MethodGet)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), admin.DeleteQuestionHandler).Methods(http.MethodDelete)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Question), admin.EditQuestionHandler).Methods(http.MethodPut)
 
 	// ---------------- Test Cases Routes ------------
-	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{id}", usecase.CreateTestCases).Methods(http.MethodPost)
-	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{testcase_id}", usecase.DeleteTestCaseHandler).Methods(http.MethodDelete)
-	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{testcase_id}", usecase.EditTestCaseHandler).Methods(http.MethodPut)
+	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{id}", admin.CreateTestCases).Methods(http.MethodPost)
+	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{testcase_id}", admin.DeleteTestCaseHandler).Methods(http.MethodDelete)
+	adminRouter.HandleFunc(constants.GetRoute(constants.TestCases)+"/{testcase_id}", admin.EditTestCaseHandler).Methods(http.MethodPut)
 
 	// ----------------- Tests Routes ----------------
-	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), usecase.CreateTestHandler).Methods(http.MethodPost)
-	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), usecase.EnableDisableTest).Methods(http.MethodPut)
-	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), usecase.GetTestHandler).Methods(http.MethodGet)
-	adminRouter.HandleFunc((constants.GetRoute(constants.Tests))+"/{test_id}", usecase.GetSingleTestHandler).Methods(http.MethodGet)
-	adminRouter.HandleFunc(constants.GetRoute(constants.Tests)+"/{test_id}", usecase.DeleteTestHandler).Methods(http.MethodDelete)
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.CreateTestHandler).Methods(http.MethodPost)
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.EnableDisableTest).Methods(http.MethodPut)
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.GetTestHandler).Methods(http.MethodGet)
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests))+"/{test_id}", admin.GetSingleTestHandler).Methods(http.MethodGet)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Tests)+"/{test_id}", admin.DeleteTestHandler).Methods(http.MethodDelete)
 
-	// ---------------- Student Routes --------------
-	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), usecase.AdminLoginHandler).Methods(http.MethodPost)
+	// ---------------- Admin Routes End ------------
 
+	// ---------------- Student Routes Start--------------
+	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), student.TestJoinHandler).Methods(http.MethodPost)
+
+	// ---------------- Student Routes End----------------
 	fmt.Println("Server is starting")
 
 	port := os.Getenv(constants.AppPort)
