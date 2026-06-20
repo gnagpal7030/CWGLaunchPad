@@ -4,6 +4,7 @@ import (
 	"CWDLaunchPad/config"
 	"CWDLaunchPad/dto"
 	"database/sql"
+	"fmt"
 )
 
 const (
@@ -41,9 +42,14 @@ func (t *TestCaseRepository) EditTestCase(testCase *dto.TestCase) error {
 	return err
 }
 
-func (q *QuestionRepository) getTestCases() ([]*dto.TestCase, error) {
+func (q *TestCaseRepository) GetTestCases(questionIDs ...int) ([]*dto.TestCase, error) {
 
-	rows, err := q.DB.Query(fetchtestCases)
+	query := fetchtestCases
+	if len(questionIDs) > 0 && questionIDs[0] != 0 {
+		query += fmt.Sprintf(" WHERE question_id = %d", questionIDs[0])
+	}
+
+	rows, err := q.DB.Query(query)
 	if err != nil {
 		return nil, err
 	}

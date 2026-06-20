@@ -28,7 +28,6 @@ const (
 )
 
 func (t *TestRepository) CreateTest(test *dto.Test) error {
-
 	res, err := t.DB.Exec(insertIntoTest, test.Title, test.DurationMinutes, test.Description, test.Enabled, test.CreatedAt)
 
 	// Also add the mapping between test ID and questions ID
@@ -55,7 +54,6 @@ func (t *TestRepository) CreateTest(test *dto.Test) error {
 }
 
 func (t *TestRepository) EnableDisableTest(payload *dto.EnableDisableTestPayload) error {
-	// TODO: Only one test should be enabled at one time.
 	_, err := t.DB.Exec(updateEnabledStatus, payload.Enable, payload.TestID)
 	return err
 }

@@ -16,4 +16,5 @@ const (
 
 	// Student routes
 	StudentJoin = "join"
+	Submit      = "submit"
 )

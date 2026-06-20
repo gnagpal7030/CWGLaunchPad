@@ -63,8 +63,10 @@ func main() {
 
 	// ---------------- Student Routes Start--------------
 	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), student.TestJoinHandler).Methods(http.MethodPost)
+	studentRouter.HandleFunc(constants.GetRoute(constants.Submit), student.CodeSubmissionHandler).Methods(http.MethodPost)
 
 	// ---------------- Student Routes End----------------
+
 	fmt.Println("Server is starting")
 
 	port := os.Getenv(constants.AppPort)

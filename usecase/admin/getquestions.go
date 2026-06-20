@@ -5,12 +5,14 @@ import (
 	AdminService "CWDLaunchPad/service/adminservice"
 	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
 func GetQuestionsHandler(w http.ResponseWriter, r *http.Request) {
 
 	questionID := r.URL.Query().Get("id")
-	res, err := AdminService.GetQuestions(questionID)
+	questionIDInt, _ := strconv.Atoi(questionID)
+	res, err := AdminService.GetQuestions(questionIDInt)
 	if err != nil {
 		http.Error(w, "error fetching questions from DB"+err.Error(), http.StatusInternalServerError)
 		return

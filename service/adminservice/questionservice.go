@@ -20,7 +20,7 @@ func CreateQuestion(question *dto.Question) error {
 	return nil
 }
 
-func GetQuestions(questionID ...string) ([]*dto.Question, error) {
+func GetQuestions(questionID ...int) ([]*dto.Question, error) {
 	return repository.GetQuestionRepo().GetQuestions(questionID...)
 }
 

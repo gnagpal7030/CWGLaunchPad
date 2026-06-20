@@ -94,14 +94,14 @@ func (q *QuestionRepository) getQuestions() ([]*dto.Question, error) {
 	return questions, nil
 }
 
-func (q *QuestionRepository) GetQuestions(questionID ...string) ([]*dto.Question, error) {
+func (q *QuestionRepository) GetQuestions(questionID ...int) ([]*dto.Question, error) {
 
 	questions, err := q.getQuestions()
 	if err != nil {
 		return nil, err
 	}
 
-	testCases, err := q.getTestCases()
+	testCases, err := GetTestCaseRepo().GetTestCases()
 	if err != nil {
 		return nil, err
 	}
