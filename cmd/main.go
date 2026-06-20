@@ -55,8 +55,8 @@ func main() {
 	// ----------------- Tests Routes ----------------
 	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.CreateTestHandler).Methods(http.MethodPost)
 	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.EnableDisableTest).Methods(http.MethodPut)
-	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.GetTestHandler).Methods(http.MethodGet)
-	adminRouter.HandleFunc((constants.GetRoute(constants.Tests))+"/{test_id}", admin.GetSingleTestHandler).Methods(http.MethodGet)
+	// adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.GetTestHandler).Methods(http.MethodGet)
+	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.GetSingleTestHandler).Methods(http.MethodGet)
 	adminRouter.HandleFunc(constants.GetRoute(constants.Tests)+"/{test_id}", admin.DeleteTestHandler).Methods(http.MethodDelete)
 
 	// ---------------- Admin Routes End ------------

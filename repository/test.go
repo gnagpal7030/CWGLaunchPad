@@ -21,7 +21,7 @@ const (
 	insertIntoTest                = `INSERT INTO tests(title, duration_minutes, description, enabled, created_at) VALUES(?, ?, ?, ?, ?)`
 	updateEnabledStatus           = `UPDATE tests SET enabled = ? WHERE id = ?`
 	insertIntoTestQuestionMapping = `INSERT INTO test_questions(test_id, question_id) VALUES (?, ?)`
-	fetchTests                    = `SELECT * FROM tests`
+	fetchTests                    = `SELECT * FROM tests WHERE enabled=1`
 	fetchTestWithQuestions        = `SELECT q.* FROM questions q JOIN test_questions tq ON tq.question_id = q.id WHERE tq.test_id = ? AND q.is_deleted = FALSE`
 	deleteTest                    = `DELETE FROM tests WHERE id = ?`
 	insertIntoStudentTestMapping  = `INSERT into student_test_mapping (student_name, roll_no, test_id) VALUES(?, ?, ?)`
@@ -82,14 +82,19 @@ func (t *TestRepository) GetAllTests() ([]*dto.Test, error) {
 	return tests, err
 }
 
-func (t *TestRepository) GetSingleTest(testID int) (*dto.SingleTest, error) {
+func (t *TestRepository) GetSingleTest() (*dto.SingleTest, error) {
+
+	res, err := t.GetAllTests()
+	if err != nil {
+		return nil, err
+	}
 
 	// Fetch test details
 	test := &dto.Test{}
 
-	err := t.DB.QueryRow(
-		fetchTests+` WHERE ID = ?`,
-		testID,
+	err = t.DB.QueryRow(
+		fetchTests+` AND ID = ?`,
+		res[0].ID,
 	).Scan(
 		&test.ID,
 		&test.Title,
@@ -106,7 +111,7 @@ func (t *TestRepository) GetSingleTest(testID int) (*dto.SingleTest, error) {
 	// Fetch all questions associated with the test
 	rows, err := t.DB.Query(
 		fetchTestWithQuestions,
-		testID,
+		res[0].ID,
 	)
 
 	if err != nil {

@@ -27,7 +27,7 @@ func TestJoinHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return the questions and every detail of it
-	res, err := AdminService.GetSingleTest(studentJoin.TestID)
+	res, err := AdminService.GetSingleTest()
 	if err != nil {
 		fmt.Println("error getting the student join data", err.Error())
 		http.Error(w, "error getting the student join data"+err.Error(), http.StatusInternalServerError)

@@ -17,8 +17,8 @@ func GetAllTests() ([]*dto.Test, error) {
 	return repository.GetTestRepo().GetAllTests()
 }
 
-func GetSingleTest(testID int) (*dto.SingleTest, error) {
-	return repository.GetTestRepo().GetSingleTest(testID)
+func GetSingleTest() (*dto.SingleTest, error) {
+	return repository.GetTestRepo().GetSingleTest()
 }
 
 func DeleteTest(testID string) error {
