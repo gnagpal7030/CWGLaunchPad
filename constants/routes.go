@@ -13,6 +13,7 @@ const (
 	Question   = "question"
 	TestCases  = "testcases"
 	Tests      = "tests"
+	Results    = "results"
 
 	// Student routes
 	StudentJoin = "join"

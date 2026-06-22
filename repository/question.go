@@ -4,6 +4,7 @@ import (
 	"CWDLaunchPad/config"
 	"CWDLaunchPad/dto"
 	"database/sql"
+	"fmt"
 )
 
 // sql queries to insert the questions in questions table
@@ -56,9 +57,14 @@ func (q *QuestionRepository) CreateQuestion(question *dto.Question) error {
 	return err
 }
 
-func (q *QuestionRepository) getQuestions() ([]*dto.Question, error) {
+func (q *QuestionRepository) getQuestions(questionID ...int) ([]*dto.Question, error) {
 
-	rows, err := q.DB.Query(fetchQuestions)
+	query := fetchQuestions
+	if len(questionID) > 0 && questionID[0] != 0 {
+		query += fmt.Sprintf(" AND id=%d", questionID[0])
+	}
+
+	rows, err := q.DB.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +102,7 @@ func (q *QuestionRepository) getQuestions() ([]*dto.Question, error) {
 
 func (q *QuestionRepository) GetQuestions(questionID ...int) ([]*dto.Question, error) {
 
-	questions, err := q.getQuestions()
+	questions, err := q.getQuestions(questionID...)
 	if err != nil {
 		return nil, err
 	}

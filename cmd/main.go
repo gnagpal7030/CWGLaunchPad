@@ -58,12 +58,14 @@ func main() {
 	// adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.GetTestHandler).Methods(http.MethodGet)
 	adminRouter.HandleFunc((constants.GetRoute(constants.Tests)), admin.GetSingleTestHandler).Methods(http.MethodGet)
 	adminRouter.HandleFunc(constants.GetRoute(constants.Tests)+"/{test_id}", admin.DeleteTestHandler).Methods(http.MethodDelete)
+	adminRouter.HandleFunc(constants.GetRoute(constants.Results)+"/{test_id}", admin.GetResultsHandler).Methods(http.MethodGet)
 
 	// ---------------- Admin Routes End ------------
 
 	// ---------------- Student Routes Start--------------
 	studentRouter.HandleFunc(constants.GetRoute(constants.StudentJoin), student.TestJoinHandler).Methods(http.MethodPost)
 	studentRouter.HandleFunc(constants.GetRoute(constants.Submit), student.CodeSubmissionHandler).Methods(http.MethodPost)
+	studentRouter.HandleFunc(constants.GetRoute(constants.Results)+"/{test_id}/{student_id}", student.GetResultsHandler).Methods(http.MethodGet)
 
 	// ---------------- Student Routes End----------------
 

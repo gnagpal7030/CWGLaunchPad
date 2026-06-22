@@ -1,8 +1,11 @@
 package dto
 
-import "time"
+import (
+	"time"
+)
 
 type SubmissionPayload struct {
+	ID              int       `json:"id"`
 	StudentRollNo   string    `json:"student_rollno"`
 	StudentName     string    `json:"student_name"`
 	TestID          int       `json:"test_id"`
@@ -19,4 +22,10 @@ type SubmitCodeResult struct {
 	Message         string `json:"message"`
 	StatusCode      int    `json:"status_code"`
 	Error           string `json:"error,omitempty"`
+}
+
+type ResultsResponse struct {
+	Data       []*SubmissionPayload `json:"data"`
+	Message    string               `json:"message"`
+	StatusCode int                  `json:"status_code"`
 }

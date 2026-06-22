@@ -33,14 +33,6 @@ func CodeSubmissionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 3. Fetch Test Cases from DB
-	testCases, err := StudentService.GetTestCasesForQuestion(submitCode.QuestionID)
-	if err != nil {
-		fmt.Println("error fetching the test cases")
-		http.Error(w, "error fetching the testcases: "+err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	// 4. Set up an isolated temporary workspace directory on the host machine
 	tmpDir, err := os.MkdirTemp("", "java-runner-*")
 	if err != nil {
@@ -101,7 +93,7 @@ func CodeSubmissionHandler(w http.ResponseWriter, r *http.Request) {
 
 	var testCaseErr string
 	// 7. Iterate and evaluate test cases sequentially
-	for _, t := range testCases {
+	for _, t := range question[0].TestCases {
 		// Strict Time Limit Exceeded (TLE) protection: 3 seconds per testcase
 		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 
@@ -145,7 +137,7 @@ func CodeSubmissionHandler(w http.ResponseWriter, r *http.Request) {
 	response := &dto.SubmitCodeResult{}
 
 	submitCode.PassedTestcases = passedTestcasesCount
-	submitCode.TotalTestcases = len(testCases)
+	submitCode.TotalTestcases = len(question[0].TestCases)
 
 	// Store the submission information in DB for later results use
 	if err := StudentService.InsertSubmission(submitCode); err != nil {
@@ -155,7 +147,7 @@ func CodeSubmissionHandler(w http.ResponseWriter, r *http.Request) {
 
 	// 8. Construct response payload
 	response.PassedTestcases = passedTestcasesCount
-	response.TotalTestcases = len(testCases)
+	response.TotalTestcases = len(question[0].TestCases)
 	response.Message = "code executed successfully"
 	response.StatusCode = http.StatusOK
 	response.Error = testCaseErr
